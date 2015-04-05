@@ -43,7 +43,7 @@ class Scheduler(threading.Thread):
             self.log = lambda x: log("[%s %s<Scheduler>] %s" % (timestamp(), self.name, x))
         else:
             self.log = lambda x: x
-        log("%s<Scheduler> created", name)
+        log("%s<Scheduler> created" % name)
 
     def run(self):
         self.log("started")
