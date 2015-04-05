@@ -29,7 +29,7 @@ ads = ADS1x15(ic=0, address=0x49)
 
 ph = PhSensor('ph', ads=ads)
 moisture = SensorWithPower('moisture', ads=ads, pi_face=piface)
-water_level = SensorWithPower('water level', power_pin=3, ads_channel=0, ads=ads, pi_face=piface)
+water_level = SensorWithPower('water level', power_pin=3, ads_channel=0, ads=ads, pi_face=piface, min_value=1)
 
 
 def flick(switchable, duration):
