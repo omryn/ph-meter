@@ -67,6 +67,7 @@ class Scheduler(threading.Thread):
         self.alive = True
         while self.alive:
             for task in self.pending_tasks:
+                self.pending_tasks.remove(task)
                 task.start()
                 self.running_tasks.append(task)
         self.kill()
