@@ -1,9 +1,8 @@
-from crontab import CronTab
 import threading
 import time
+from crontab import CronTab
 
 __author__ = 'Omry_Nachman'
-
 
 def noop():
     return False
