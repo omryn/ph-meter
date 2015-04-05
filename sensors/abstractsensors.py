@@ -96,7 +96,7 @@ class InvalidMeasuredValue(MeasureError):
         self.max = max
 
     def __str__(self):
-        return "%s: Sample not in expected range (value: %.2f, min: %0.2f, max: %0,2f)" % \
+        return "%s: Sample not in expected range (value: %.2f, min: %0.2f, max: %0.2f)" % \
                (super(InvalidMeasuredValue, self).__str__(), self.value, self.min, self.max)
 
 
