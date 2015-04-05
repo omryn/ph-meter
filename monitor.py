@@ -1,3 +1,4 @@
+#!/usr/bin/python
 __author__ = 'Omry_Nachman'
 
 from beheaviors import Scheduler, ConditionHandler
