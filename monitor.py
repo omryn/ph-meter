@@ -34,7 +34,7 @@ def flick(switchable, duration):
         switchable.turn_off()
     return execute
 
-water_plants = ConditionHandler(moisture, lambda mv: mv < 3700, flick(piface.relays[0], 5), piface.relays[0].turn_off, 10)
+water_plants = ConditionHandler("water_plants", moisture, lambda mv: mv < 3700, flick(piface.relays[0], 5), piface.relays[0].turn_off, 10)
 
 scheduler.start()
 scheduler.interval(water_plants, 30)

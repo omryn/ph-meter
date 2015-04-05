@@ -4,26 +4,35 @@ from crontab import CronTab
 
 __author__ = 'Omry_Nachman'
 
+
 def noop():
     return False
 
 
-class RepeatingTask:
-    def __init__(self, condition_handler, get_next_interval, kill_switch=noop):
+class RepeatingTask(object):
+    def __init__(self, id, condition_handler, get_next_interval, kill_switch=noop, log=lambda x: x):
         self.condition_handler = condition_handler
         self.get_next_interval = get_next_interval
         self.kill_switch = kill_switch
         self.on_kill = noop
         self.timer = threading.Timer(get_next_interval, self.execute)
+        self.log = lambda x: log("Task[%d](%s): %s" % (id, condition_handler.name, x))
 
     def execute(self):
         if not self.kill_switch():
-            self.condition_handler.execute()
-            self.timer = threading.Timer(self.get_next_interval, self.execute)
+            self.log("Executing task")
+            result = self.condition_handler.execute()
+            self.log("Execution results: %s" % str(result))
+
+            interval = self.get_next_interval()
+            self.log("Next execution in %.3f seconds" % interval)
+            self.timer = threading.Timer(interval, self.execute)
         else:
+            self.log("kill_switch returned True, killing task")
             self.on_kill()
 
     def cancel(self):
+        self.log("Task cancelled")
         self.timer.cancel()
         self.on_kill()
 
@@ -35,10 +44,10 @@ def timestamp():
 class Scheduler(threading.Thread):
     def __init__(self, name='default', log=None):
         print "hello"
-        super(Scheduler, self).__init__(name = name)
+        super(Scheduler, self).__init__(name=name)
         self.alive = True
         self.running_tasks = []
-        self.last_id = 0
+        self.last_task_id = 0
         if log:
             self.log = lambda x: log("[%s %s<Scheduler>] %s" % (timestamp(), self.name, x))
         else:
@@ -69,7 +78,8 @@ class Scheduler(threading.Thread):
             time.sleep(0.001)
 
     def _addTask(self, condition_handler, get_next_interval, kill_switch):
-        task = RepeatingTask(condition_handler, get_next_interval, kill_switch)
+        task = RepeatingTask(self.last_task_id, condition_handler, get_next_interval, kill_switch, self.log)
+        self.last_task_id += 1
         task.on_kill = lambda: self.running_tasks.remove(task)
         self.running_tasks.append(task)
         return task
