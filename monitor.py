@@ -43,9 +43,9 @@ water_plants = ConditionHandler("water_plants", moisture,
                                 lambda mv: mv < 3.7,
                                 flick(piface.relays[0], 60), piface.relays[0].turn_off,
                                 log=log)
-water_leveler = ConditionHandler("water_plants", water_level,
-                                 lambda mv: mv < 2,
-                                 flick(piface.relays[1], 10), piface.relays[1].turn_off,
+water_leveler = ConditionHandler("water_leveler", water_level,
+                                 lambda mv: mv < 2.1,
+                                 flick(piface.relays[1], 5), piface.relays[1].turn_off,
                                  log=log)
 
 
@@ -53,6 +53,6 @@ print "Stating scheduler"
 scheduler.start()
 print "Adding water_plants"
 scheduler.cron(water_plants, "*/5 * * * *")
-scheduler.interval(water_leveler, 2)
+scheduler.interval(water_leveler, 1)
 scheduler.join()
 print "Good bye, hope you had a good time"
