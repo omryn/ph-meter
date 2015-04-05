@@ -40,13 +40,19 @@ def flick(switchable, duration):
     return execute
 
 water_plants = ConditionHandler("water_plants", moisture,
-                                lambda mv: mv < 3700,
+                                lambda mv: mv < 3.7,
                                 flick(piface.relays[0], 60), piface.relays[0].turn_off,
                                 log=log)
+water_leveler = ConditionHandler("water_plants", water_level,
+                                 lambda mv: mv < 2,
+                                 flick(piface.relays[1], 10), piface.relays[1].turn_off,
+                                 log=log)
+
 
 print "Stating scheduler"
 scheduler.start()
 print "Adding water_plants"
 scheduler.cron(water_plants, "*/5 * * * *")
+scheduler.interval(water_leveler, 2)
 scheduler.join()
 print "Good bye, hope you had a good time"
