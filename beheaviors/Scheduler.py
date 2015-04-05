@@ -54,6 +54,7 @@ class Scheduler(threading.Thread):
         super(Scheduler, self).__init__(name=name)
         self.alive = False
         self.running_tasks = []
+        self.pending_tasks = []
         self.last_task_id = 0
         if log:
             self.log = lambda x: log("[%s %s<Scheduler>] %s" % (timestamp(), self.name, x))
@@ -64,10 +65,10 @@ class Scheduler(threading.Thread):
     def run(self):
         self.log("Started")
         self.alive = True
-        for task in self.running_tasks:
-            task.start()
         while self.alive:
-            pass
+            for task in self.pending_tasks:
+                task.start()
+                self.running_tasks.append(task)
         self.kill()
         self.log("Terminated")
 
@@ -91,5 +92,5 @@ class Scheduler(threading.Thread):
         task = RepeatingTask(self.last_task_id, condition_handler, get_next_interval, kill_switch, self.log)
         self.last_task_id += 1
         task.on_kill = lambda: self.running_tasks.remove(task)
-        self.running_tasks.append(task)
+        self.pending_tasks.append(task)
         return task
