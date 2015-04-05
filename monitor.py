@@ -17,8 +17,8 @@ scheduler = Scheduler(log=log)
 
 
 def signal_handler(signal, frame):
-    log("Killing scheduler")
     global scheduler
+    print "Killing scheduler"
     scheduler.kill()
     scheduler.join(1)
 signal.signal(signal.SIGINT, signal_handler)
@@ -41,12 +41,12 @@ def flick(switchable, duration):
 
 water_plants = ConditionHandler("water_plants", moisture,
                                 lambda mv: mv < 3700,
-                                flick(piface.relays[0], 1), piface.relays[0].turn_off,
+                                flick(piface.relays[0], 60), piface.relays[0].turn_off,
                                 log=log)
 
 print "Stating scheduler"
 scheduler.start()
 print "Adding water_plants"
-scheduler.interval(water_plants, 10)
+scheduler.interval(water_plants, 15 * 60)
 scheduler.join()
 print "Good bye, hope you had a good time"

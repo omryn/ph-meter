@@ -1,0 +1,17 @@
+#!/bin/bash
+if [ "$#" == 1 ]; then
+    echo "Adding changes to to git"
+    git add . > /dev/null
+    echo "Committing changes"
+    git commit -am "$1" > /dev/null 2>&1 || exit 1
+    echo "Pushing changes"
+    git push || exit 2
+else
+    echo "ALERT: Running without pushing"
+fi
+
+PI="pi@10.0.0.15"
+REMOTE_DIR="~/ph-meter"
+
+echo "$PI is pulling changes"
+ssh "$PI" "$REMOTE_DIR/pull" || exit 3
