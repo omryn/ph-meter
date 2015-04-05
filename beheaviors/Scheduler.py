@@ -24,6 +24,11 @@ class RepeatingTask:
         else:
             self.on_kill()
 
+    def cancel(self):
+        self.timer.cancel()
+        self.on_kill()
+
+
 class Scheduler(threading.Thread):
     def __init__(self, min_interval=0.1):
         self.min_interval = min_interval
@@ -34,9 +39,10 @@ class Scheduler(threading.Thread):
     def run(self):
         while self.alive:
             pass
-        for task in self.running_tasks:
-            task.timer.cancel()
-        while len(self.running_tasks) > 0
+
+        while len(self.running_tasks) > 0:
+            for task in self.running_tasks:
+                task.cancel()
             sleep(0.001)
 
     def interval(self, condition_handler, interval, kill_switch=noop):
@@ -52,6 +58,6 @@ class Scheduler(threading.Thread):
 
     def _addTask(self, condition_handler, get_next_interval, kill_switch):
         task = RepeatingTask(condition_handler, get_next_interval, kill_switch)
-        task.on_kill = lambda x: x: self.running_tasks.remove(task)
+        task.on_kill = lambda x: self.running_tasks.remove(task)
         self.running_tasks.append(task)
         return task

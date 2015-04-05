@@ -1,5 +1,4 @@
-import LinearCalibratedSensor
-import Sensor
+from abstractsensors import *
+from physicalsensors import *
 
 __author__ = 'Omry_Nachman'
-__all__ = ['Sensor', 'LinearCalibratedSensor']
