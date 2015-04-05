@@ -8,8 +8,9 @@ def noop():
 
 
 class ConditionHandler:
-    def __init__(self, sensor, condition_func, on_true=noop, on_false=noop,
+    def __init__(self, name, sensor, condition_func, on_true=noop, on_false=noop,
                  recheck_interval=120, max_checks=10, recheck_on=True):
+        self.name = name
         self.sensor = sensor
         self.condition_func = condition_func
         self.on_true = on_true
