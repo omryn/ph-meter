@@ -7,7 +7,6 @@ from pifacedigitalio import PiFaceDigital
 import signal
 from time import sleep
 import sys
-import threading
 
 print "Starting monitor"
 
@@ -21,11 +20,8 @@ scheduler = Scheduler(log=log)
 
 def signal_handler(signal, frame):
     global scheduler
-    print threading.enumerate()
-    print "Killing scheduler"
     scheduler.kill()
     scheduler.join(1)
-    print threading.enumerate()
     sys.exit(1)
 
 
