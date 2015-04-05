@@ -38,6 +38,7 @@ class SensorWithPower(abstractsensors.Sensor):
 class PhSensor(abstractsensors.LinearCalibratedSensor):
     def __init__(self, name,  p_channel=2, n_channel=3, pga=512,
                  ads=ADS1x15(ic=0, address=0x49), max_std=None):
+        super(PhSensor, self).__init__()
         super(PhSensor, self).__init__(name, self.get_measure,
                                        samples_count=20, max_std=max_std)
         self.p_channel = p_channel

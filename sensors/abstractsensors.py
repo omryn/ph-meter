@@ -3,7 +3,7 @@ from numpy import median, std, mean
 from time import time
 
 
-class Sensor:
+class Sensor(object):
     def __init__(self, name, measure_func, pre_measure=None, post_measure=None,
                  samples_count=10, max_std=None, min_value=None, max_value=None):
         self.name = name
