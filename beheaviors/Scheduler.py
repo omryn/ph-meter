@@ -18,12 +18,15 @@ class RepeatingTask(object):
         self.log = lambda x: log("Task[%d](%s): %s" % (id, condition_handler.name, x))
         self.timer = None
         self.log("Task created")
-        self._set_next_execution()
 
     def _set_next_execution(self):
         interval = self.get_next_interval()
         self.log("Next execution in %.3f seconds" % interval)
         self.timer = threading.Timer(interval, self.execute)
+
+    def start(self):
+        self.log("Started")
+        self._set_next_execution()
 
     def execute(self):
         if not self.kill_switch():
@@ -48,7 +51,7 @@ def timestamp():
 class Scheduler(threading.Thread):
     def __init__(self, name='default', log=None):
         super(Scheduler, self).__init__(name=name)
-        self.alive = True
+        self.alive = False
         self.running_tasks = []
         self.last_task_id = 0
         if log:
@@ -59,6 +62,9 @@ class Scheduler(threading.Thread):
 
     def run(self):
         self.log("Started")
+        self.alive = True
+        for task in self.running_tasks:
+            task.start()
         while self.alive:
             pass
         self.kill()
