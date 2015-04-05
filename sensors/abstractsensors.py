@@ -28,6 +28,8 @@ class Sensor(object):
         if self.max_value is not None and measured > self.max_value:
             raise InvalidMeasuredValue(self.name, measured, self.min_value, self.max_value)
 
+        if self.cleanupProc:
+            self.cleanupProc()
         return measured
 
 

@@ -13,7 +13,7 @@ class SensorWithPower(abstractsensors.Sensor):
 
         super(SensorWithPower, self).__init__(name, self.get_measure,
                                               self.power_on, self.power_off,
-                                              max_std=max_std, min_value=0.6, max_value=4.0)
+                                              max_std=max_std, min_value=min_value, max_value=max_value)
         self.power_pin = power_pin
         self.ads_channel = ads_channel
         self.pga = pga
