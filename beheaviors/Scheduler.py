@@ -47,7 +47,6 @@ def timestamp():
 
 class Scheduler(threading.Thread):
     def __init__(self, name='default', log=None):
-        print "hello"
         super(Scheduler, self).__init__(name=name)
         self.alive = True
         self.running_tasks = []
@@ -56,18 +55,18 @@ class Scheduler(threading.Thread):
             self.log = lambda x: log("[%s %s<Scheduler>] %s" % (timestamp(), self.name, x))
         else:
             self.log = lambda x: x
-        log("%s<Scheduler> created" % name)
+        self.log("Created" % name)
 
     def run(self):
-        self.log("started")
+        self.log("Started")
         while self.alive:
             pass
         self.kill()
-        self.log("terminated")
+        self.log("Terminated")
 
     def interval(self, condition_handler, interval, kill_switch=noop):
         self.log("Adding interval task: %s, every %d seconds" % (condition_handler.name, interval))
-        return self._addTask(condition_handler, lambda x: interval, kill_switch)
+        return self._addTask(condition_handler, lambda: interval, kill_switch)
 
     def cron(self, condition_handler, cron_str, kill_switch=noop):
         self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_str))

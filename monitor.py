@@ -9,6 +9,7 @@ from time import sleep
 
 print "Starting monitor"
 
+
 def signal_handler(signal, frame):
     global scheduler
     scheduler.kill()
