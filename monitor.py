@@ -47,6 +47,6 @@ water_plants = ConditionHandler("water_plants", moisture,
 print "Stating scheduler"
 scheduler.start()
 print "Adding water_plants"
-scheduler.interval(water_plants, 15 * 60)
+scheduler.cron(water_plants, "*/5 * * * *")
 scheduler.join()
 print "Good bye, hope you had a good time"
