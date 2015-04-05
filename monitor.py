@@ -58,7 +58,7 @@ water_leveler = ConditionHandler("water_leveler", water_level,
 print "Stating scheduler"
 scheduler.start()
 print "Adding water_plants"
-scheduler.cron(water_plants, "* * * * *")
-scheduler.interval(water_leveler, 30)
+#scheduler.cron(water_plants, "* * * * *")
+scheduler.interval(water_leveler, 10)
 scheduler.join()
 print "Good bye, hope you had a good time"
