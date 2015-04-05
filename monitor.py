@@ -7,6 +7,7 @@ from pifacedigitalio import PiFaceDigital
 import signal
 from time import sleep
 
+print "Starting monitor"
 
 def signal_handler(signal, frame):
     global scheduler
@@ -36,7 +37,9 @@ def flick(switchable, duration):
 
 water_plants = ConditionHandler("water_plants", moisture, lambda mv: mv < 3700, flick(piface.relays[0], 5), piface.relays[0].turn_off, 10)
 
+print "Stating scheduler"
 scheduler.start()
+print "Adding water_plants"
 scheduler.interval(water_plants, 30)
 scheduler.join()
 print "Good bye, hope you had a good time"
