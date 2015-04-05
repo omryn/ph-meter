@@ -36,8 +36,7 @@ def flick(switchable, duration):
 
 water_plants = ConditionHandler(moisture, lambda mv: mv < 3700, flick(piface.relays[0], 5), piface.relays[0].turn_off, 10)
 
-scheduler.interval(water_plants, 30)
-
 scheduler.start()
+scheduler.interval(water_plants, 30)
 scheduler.join()
 print "Good bye, hope you had a good time"
