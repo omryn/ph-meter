@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 
 pull
+run
 
 # C extensions
 *.so
