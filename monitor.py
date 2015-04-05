@@ -6,6 +6,7 @@ from sensors import SensorWithPower, PhSensor, ADS1x15
 from pifacedigitalio import PiFaceDigital
 import signal
 from time import sleep
+import sys
 
 print "Starting monitor"
 
@@ -22,6 +23,8 @@ def signal_handler(signal, frame):
     print "Killing scheduler"
     scheduler.kill()
     scheduler.join(1)
+    for threadId, stack in sys._current_frames().items():
+        print threadId
 
 
 signal.signal(signal.SIGINT, signal_handler)
