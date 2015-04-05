@@ -26,6 +26,7 @@ def signal_handler(signal, frame):
     scheduler.kill()
     scheduler.join(1)
     print threading.enumerate()
+    sys.exit(1)
 
 
 signal.signal(signal.SIGINT, signal_handler)
