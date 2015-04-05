@@ -34,6 +34,7 @@ def timestamp():
 
 class Scheduler(threading.Thread):
     def __init__(self, name='default', log=None):
+        super(Scheduler, self).__init__(name = name)
         self.alive = True
         self.name = name
         self.running_tasks = []
