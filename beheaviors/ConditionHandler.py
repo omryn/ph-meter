@@ -65,7 +65,7 @@ class ConditionHandler:
             else:
                 self.on_false()
         except Exception as err:
-            self.log("Measure failed: %s" % err)
+            self.log("Measure failed: %s" % str(err))
             measure = err
             condition_satisfied = None
             self.on_error()
