@@ -15,18 +15,22 @@ class RepeatingTask(object):
         self.get_next_interval = get_next_interval
         self.kill_switch = kill_switch
         self.on_kill = noop
-        self.timer = threading.Timer(get_next_interval, self.execute)
         self.log = lambda x: log("Task[%d](%s): %s" % (id, condition_handler.name, x))
+        self.timer = None
+        self.log("Task created")
+        self._set_next_execution()
+
+    def _set_next_execution(self):
+        interval = self.get_next_interval()
+        self.log("Next execution in %.3f seconds" % interval)
+        self.timer = threading.Timer(interval, self.execute)
 
     def execute(self):
         if not self.kill_switch():
             self.log("Executing task")
             result = self.condition_handler.execute()
             self.log("Execution results: %s" % str(result))
-
-            interval = self.get_next_interval()
-            self.log("Next execution in %.3f seconds" % interval)
-            self.timer = threading.Timer(interval, self.execute)
+            self._set_next_execution()
         else:
             self.log("kill_switch returned True, killing task")
             self.on_kill()
