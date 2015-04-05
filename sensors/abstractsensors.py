@@ -71,7 +71,7 @@ class LinearCalibratedSensor(Sensor):
         under = filter(calibration, lambda item: measured_value <= item[1])
         over = filter(calibration, lambda item: measured_value > item[1])
 
-        if len(under) > 0 & & len(over) > 0:
+        if len(under) > 0 and len(over) > 0:
             return [under[-1], over[0]]
         elif len(under) == 0:
             return over[0:2]
