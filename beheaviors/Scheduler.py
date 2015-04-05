@@ -23,6 +23,7 @@ class RepeatingTask(object):
         interval = self.get_next_interval()
         self.log("Next execution in %.3f seconds" % interval)
         self.timer = threading.Timer(interval, self.execute)
+        self.timer.start()
 
     def start(self):
         self.log("Started")
