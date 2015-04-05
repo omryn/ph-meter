@@ -44,6 +44,7 @@ class RepeatingTask(object):
         if self.timer:
             self.timer.cancel()
         self.on_kill()
+        self.timer.join(1)
 
 
 def timestamp():
@@ -86,6 +87,8 @@ class Scheduler(threading.Thread):
         self.alive = False
         while len(self.running_tasks) > 0:
             self.log("cancelling %d tasks" % len(self.running_tasks))
+            for task in self.pending_tasks:
+                task.cancel()
             for task in self.running_tasks:
                 task.cancel()
             time.sleep(0.001)
