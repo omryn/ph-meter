@@ -1,6 +1,6 @@
 from crontab import CronTab
 import threading
-from time import sleep
+import time
 
 __author__ = 'Omry_Nachman'
 
@@ -29,35 +29,46 @@ class RepeatingTask:
         self.on_kill()
 
 
+def timestamp():
+    return "%s" % time.strftime("%d/%m/%Y %H:%M:%S", time.localtime())
+
+
 class Scheduler(threading.Thread):
-    def __init__(self, min_interval=0.1):
-        self.min_interval = min_interval
+    def __init__(self, name='default', log=None):
         self.alive = True
+        self.name = name
         self.running_tasks = []
         self.last_id = 0
+        if log:
+            self.log = lambda x: log("[%s %s<Scheduler>] %s" % (timestamp(), self.name, x))
+        else:
+            self.log = lambda x: x
 
     def run(self):
+        self.log("started")
         while self.alive:
             pass
-
-        while len(self.running_tasks) > 0:
-            for task in self.running_tasks:
-                task.cancel()
-            sleep(0.001)
+        self.kill()
+        self.log("terminated")
 
     def interval(self, condition_handler, interval, kill_switch=noop):
+        self.log("Adding interval task: %s, every %d seconds" % (condition_handler.name, interval))
         return self._addTask(condition_handler, lambda x: interval, kill_switch)
 
     def cron(self, condition_handler, cron_str, kill_switch=noop):
+        self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_str))
         return self._addTask(condition_handler, CronTab(cron_str).next, kill_switch)
 
     def kill(self):
         self.alive = False
-        for task in self.running_tasks:
-            task.timer.cancel()
+        while len(self.running_tasks) > 0:
+            self.log("cancelling %d tasks" % len(self.running_tasks))
+            for task in self.running_tasks:
+                task.cancel()
+            time.sleep(0.001)
 
     def _addTask(self, condition_handler, get_next_interval, kill_switch):
         task = RepeatingTask(condition_handler, get_next_interval, kill_switch)
-        task.on_kill = lambda x: self.running_tasks.remove(task)
+        task.on_kill = lambda: self.running_tasks.remove(task)
         self.running_tasks.append(task)
         return task
