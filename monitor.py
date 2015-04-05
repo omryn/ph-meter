@@ -60,5 +60,7 @@ scheduler.start()
 print "Adding water_plants"
 #scheduler.cron(water_plants, "* * * * *")
 scheduler.interval(water_leveler, 10)
+while True:
+    signal.pause()
 scheduler.join()
 print "Good bye, hope you had a good time"
