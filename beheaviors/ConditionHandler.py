@@ -9,7 +9,7 @@ def noop():
 
 class ConditionHandler:
     def __init__(self, name, sensor, condition_func, on_true=noop, on_false=noop,
-                 recheck_interval=120, max_checks=10, recheck_on=True, log=lambda:None):
+                 recheck_interval=None, max_checks=10, recheck_on=True, log=lambda:None):
         self.name = name
         self.sensor = sensor
         self.condition_func = condition_func
@@ -34,8 +34,9 @@ class ConditionHandler:
 
         samples.append(measure)
 
-        if isinstance(measure, Exception) or \
-                (condition_satisfied == self.recheck_on and itteration_count < self.max_checks):
+        if self.recheck_interval is not None and (
+                    isinstance(measure, Exception) or
+                    (condition_satisfied == self.recheck_on and itteration_count < self.max_checks)):
             time.sleep(self.recheck_interval)
             return self.execute(itteration_count + 1, samples, start_time)
         else:

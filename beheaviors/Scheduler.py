@@ -41,7 +41,8 @@ class RepeatingTask(object):
 
     def cancel(self):
         self.log("Task cancelled")
-        self.timer.cancel()
+        if self.timer:
+            self.timer.cancel()
         self.on_kill()
 
 
