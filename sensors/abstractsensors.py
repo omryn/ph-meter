@@ -16,20 +16,18 @@ class Sensor(object):
         self.max_value = max_value
 
     def measure(self):
-        if self.initProc:
-            self.initProc()
-
+        if self.initProc: self.initProc()
         samples = [self.measureProc() for count in range(self.samples_count)]
         measured = median(samples)
-        if self.max_std != None and std(samples) > self.max_std:
+        if self.cleanupProc: self.cleanupProc()
+
+        if self.max_std is not None and std(samples) > self.max_std:
             raise StdTooHigh(self.name, samples, self.max_std)
-        if self.min_value != None and measured < self.min_value:
+        if self.min_value is not None and measured < self.min_value:
             raise InvalidMeasuredValue(self.name, measured, self.min_value, self.max_value)
-        if self.max_value != None and measured > self.max_value:
+        if self.max_value is not None and measured > self.max_value:
             raise InvalidMeasuredValue(self.name, measured, self.min_value, self.max_value)
 
-        if self.cleanupProc:
-            self.cleanupProc()
         return measured
 
 

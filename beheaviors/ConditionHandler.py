@@ -23,7 +23,7 @@ class ConditionHandler:
     def execute(self, itteration_count=0, samples=None, start_time=None):
         if samples is None: samples = []
         if start_time is None: start_time = time.time()
-        
+
         try:
             measure = self.sensor.measure()
             condition_satisfied = self.condition_func(measure)
