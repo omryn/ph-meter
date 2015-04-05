@@ -7,6 +7,7 @@ from pifacedigitalio import PiFaceDigital
 import signal
 from time import sleep
 
+
 def signal_handler(signal, frame):
     global scheduler
     scheduler.kill()
@@ -14,7 +15,10 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-scheduler = Scheduler(log=lambda x: print(x))
+def log(x):
+    print x
+
+scheduler = Scheduler(log=log)
 piface = PiFaceDigital()
 ads = ADS1x15(ic=0, address=0x49)
 
