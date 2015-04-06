@@ -80,7 +80,7 @@ class Scheduler(threading.Thread):
             self.log("Adding interval task: %s, every %d seconds" % (condition_handler.name, interval))
             return self._add_task(condition_handler, lambda: interval, kill_switch)
         except ValueError:
-            self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_str))
+            self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_or_interval))
             return self._add_task(condition_handler, CronTab(cron_or_interval).next, kill_switch)
 
     def kill(self):
