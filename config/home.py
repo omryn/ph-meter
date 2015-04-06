@@ -10,7 +10,7 @@ ads = ADS1x15(ic=0, address=0x49)
 ### Sensors
 ph = PhSensor('ph', ads=ads)
 moisture = SensorWithPower('moisture', ads=ads, pi_face=piface)
-water_level = SensorWithPower('water level', power_pin=3, ads_channel=0, ads=ads, pi_face=piface, min_value=1)
+water_level = SensorWithPower('water level', power_pin=3, ads_channel=0, ads=ads, pi_face=piface)
 
 ### Behaviors
 water_plants = ConditionHandler("water_plants", moisture,
@@ -25,6 +25,6 @@ balance_water_level = ConditionHandler("water_leveler", water_level,
 
 ### Schedule
 schedule = [
-    ('* * * * *', water_plants),
-    (2, balance_water_level)
+    ('*/15 * * * *', water_plants),
+    (10, balance_water_level)
 ]

@@ -9,7 +9,7 @@ from time import sleep
 class SensorWithPower(Sensor):
     def __init__(self, name, power_pin=2, ads_channel=1, pga=4096,
                  pi_face=PiFaceDigital(), ads=ADS1x15(ic=0, address=0x49),
-                 max_std=None, min_value=0.6, max_value=4.0):
+                 max_std=None, min_value=0.2, max_value=4.0):
 
         super(SensorWithPower, self).__init__(name, self.get_measure,
                                               self.power_on, self.power_off,
