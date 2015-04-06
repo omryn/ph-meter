@@ -87,13 +87,11 @@ class Scheduler(threading.Thread):
         self.alive = False
         while len(self.running_tasks) > 0:
             self.log("Cancelling %d tasks" % len(self.running_tasks))
-            for task in self.pending_tasks:
-                task.cancel()
-            for task in self.running_tasks:
+            for task in self.pending_tasks + self.running_tasks:
                 task.cancel()
             time.sleep(0.001)
 
-    def _remove_task(self, taks):
+    def _remove_task(self, task):
         self.pending_tasks.remove(task)
         self.running_tasks.remove(task)
 

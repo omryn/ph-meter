@@ -25,6 +25,6 @@ balance_water_level = ConditionHandler("water_leveler", water_level,
 
 ### Schedule
 schedule = [
-    ('*/5 * * * *', water_plants),
-    (10, balance_water_level)
+    ('* * * * *', water_plants),
+    (5, balance_water_level)
 ]
