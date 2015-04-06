@@ -16,14 +16,12 @@ water_level = SensorWithPower('water level', power_pin=3, ads_channel=0, ads=ads
 water_plants = ConditionHandler("water_plants", moisture,
                                 lambda v: v < 3.7,
                                 flick(piface.relays[0], 60), piface.relays[0].turn_off, piface.relays[0].turn_off,
-                                RetryPolicy.retry_on_error(10, 20),
-                                log=log)
+                                RetryPolicy.retry_on_error(10, 20))
 
 balance_water_level = ConditionHandler("water_leveler", water_level,
-                                 lambda v: v < 2.1,
-                                 piface.relays[1].turn_on, piface.relays[1].turn_off, piface.relays[1].turn_off,
-                                 RetryPolicy(1, 120, on_failed_all=piface.relays[1].turn_off),
-                                 log=log)
+                                       lambda v: v < 2.1,
+                                       piface.relays[1].turn_on, piface.relays[1].turn_off, piface.relays[1].turn_off,
+                                       RetryPolicy(1, 120, on_failed_all=piface.relays[1].turn_off))
 
 ### Schedule
 schedule = [
