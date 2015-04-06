@@ -4,7 +4,8 @@ __author__ = 'Omry_Nachman'
 from beheaviors import SchedulerWithConfig
 import signal
 import sys
-import config
+from config import home
+
 
 def log(x):
     print x
@@ -21,7 +22,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 print "Stating scheduler"
 scheduler.start()
-scheduler.add_schedule(config.home)
+scheduler.add_schedule(home)
 
 while True:
     signal.pause()

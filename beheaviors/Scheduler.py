@@ -115,5 +115,4 @@ class SchedulerWithConfig(Scheduler):
 
     def load_config_module(self, module):
         conf = __import__(module)
-        print conf
         self.add_schedule(conf.schedule)
