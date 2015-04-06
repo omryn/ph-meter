@@ -1,12 +1,12 @@
 __author__ = 'Omry_Nachman'
 
-from Adafruit_ADS1x15 import ADS1x15
+from .Adafruit_ADS1x15 import ADS1x15
 from pifacedigitalio import PiFaceDigital
+from .abstractsensors import *
 from time import sleep
-import abstractsensors
 
 
-class SensorWithPower(abstractsensors.Sensor):
+class SensorWithPower(Sensor):
     def __init__(self, name, power_pin=2, ads_channel=1, pga=4096,
                  pi_face=PiFaceDigital(), ads=ADS1x15(ic=0, address=0x49),
                  max_std=None, min_value=0.6, max_value=4.0):
@@ -35,7 +35,7 @@ class SensorWithPower(abstractsensors.Sensor):
         return self.ads.readADCSingleEnded(channel=self.ads_channel, sps=3300, pga=self.pga) / 1000
 
 
-class PhSensor(abstractsensors.LinearCalibratedSensor):
+class PhSensor(LinearCalibratedSensor):
     def __init__(self, name,  p_channel=2, n_channel=3, pga=512,
                  ads=ADS1x15(ic=0, address=0x49), max_std=None):
         super(PhSensor, self).__init__(name, self.get_measure,

@@ -14,7 +14,7 @@ import time
 #
 # NOT IMPLEMENTED: Conversion ready pin, page 15 datasheet.
 # ===========================================================================
-from Adafruit_I2C import Adafruit_I2C
+from .Adafruit_I2C import Adafruit_I2C
 
 
 class ADS1x15:

@@ -74,13 +74,14 @@ class Scheduler(threading.Thread):
         self.kill()
         self.log("Terminated")
 
-    def interval(self, condition_handler, interval, kill_switch=noop):
-        self.log("Adding interval task: %s, every %d seconds" % (condition_handler.name, interval))
-        return self._add_task(condition_handler, lambda: interval, kill_switch)
-
-    def cron(self, condition_handler, cron_str, kill_switch=noop):
-        self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_str))
-        return self._add_task(condition_handler, CronTab(cron_str).next, kill_switch)
+    def schedule(self, cron_or_interval, condition_handler, kill_switch=noop):
+        try:
+            schedule = float(schedule)
+            self.log("Adding interval task: %s, every %d seconds" % (condition_handler.name, interval))
+            return self._add_task(condition_handler, lambda: interval, kill_switch)
+        except ValueError:
+            self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_str))
+            return self._add_task(condition_handler, CronTab(schedule).next, kill_switch)
 
     def kill(self):
         self.alive = False
@@ -102,3 +103,16 @@ class Scheduler(threading.Thread):
         task.on_kill = lambda: self._remove_task(task)
         self.pending_tasks.append(task)
         return task
+
+
+class SchedulerWithConfig(Scheduler):
+    def __init__(self, name='default', log=None):
+        super(SchedulerWithConfig, self).__init__(name, log)
+
+    def add_schedule(self, schedule_list):
+        for schedule, behavior in schedule_list:
+            self.schedule(schedule, behavior)
+
+    def load_config_module(self, module):
+        conf = __import__(module)
+        self.add_schedule(conf.schedule)

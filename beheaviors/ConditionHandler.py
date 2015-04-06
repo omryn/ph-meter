@@ -7,6 +7,14 @@ def noop():
     return None
 
 
+def flick(switchable, duration):
+    def execute():
+        switchable.turn_on()
+        sleep(duration)
+        switchable.turn_off()
+    return execute
+
+
 class RetryPolicy(object):
     def __init__(self, wait_before_recheck=10, max_retries=10, recheck_when=True,
                  recheck_on_error=True, on_failed_all=noop):
