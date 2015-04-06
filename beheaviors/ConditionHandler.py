@@ -50,7 +50,7 @@ class RetryPolicy(object):
 class ConditionHandler:
     def __init__(self, name, sensor, condition_func,
                  on_true=noop, on_false=noop, on_error=noop,
-                 retry_policy=RetryPolicy.no_retry(), log=lambda: None):
+                 retry_policy=RetryPolicy.no_retry(), log=lambda x: None):
         self.name = name
         self.sensor = sensor
         self.condition_func = condition_func
