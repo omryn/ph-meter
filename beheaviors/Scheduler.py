@@ -92,8 +92,10 @@ class Scheduler(threading.Thread):
             time.sleep(0.001)
 
     def _remove_task(self, task):
-        self.pending_tasks.remove(task)
-        self.running_tasks.remove(task)
+        try: self.pending_tasks.remove(task)
+        except ValueError: pass
+        try: self.running_tasks.remove(task)
+        except ValueError: pass
 
     def _add_task(self, condition_handler, get_next_interval, kill_switch):
         task = RepeatingTask(self.last_task_id, condition_handler, get_next_interval, kill_switch, self.log)
