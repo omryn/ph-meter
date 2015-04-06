@@ -76,12 +76,12 @@ class Scheduler(threading.Thread):
 
     def schedule(self, cron_or_interval, condition_handler, kill_switch=noop):
         try:
-            schedule = float(schedule)
+            schedule = float(cron_or_interval)
             self.log("Adding interval task: %s, every %d seconds" % (condition_handler.name, interval))
             return self._add_task(condition_handler, lambda: interval, kill_switch)
         except ValueError:
             self.log("Adding cron task: %s, at %s" % (condition_handler.name, cron_str))
-            return self._add_task(condition_handler, CronTab(schedule).next, kill_switch)
+            return self._add_task(condition_handler, CronTab(cron_or_interval).next, kill_switch)
 
     def kill(self):
         self.alive = False
