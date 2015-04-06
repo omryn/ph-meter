@@ -1,7 +1,7 @@
 __author__ = 'Omry_Nachman'
 
-from ..sensors import SensorWithPower, PhSensor, ADS1x15
-from ..beheaviors import ConditionHandler
+from sensors import SensorWithPower, PhSensor, ADS1x15
+from beheaviors import ConditionHandler
 
 ### Hardware
 piface = PiFaceDigital()
