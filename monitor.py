@@ -22,7 +22,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 print "Stating scheduler"
 scheduler.start()
-scheduler.add_schedule(home)
+scheduler.add_schedule(home.schedule)
 
 while True:
     signal.pause()
