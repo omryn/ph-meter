@@ -1,6 +1,6 @@
 __author__ = 'Omry_Nachman'
 from sensors import SensorWithPower, PhSensor, ADS1x15
-from beheaviors import ConditionHandler
+from beheaviors import ConditionHandler, flick
 from pifacedigitalio import PiFaceDigital
 
 ### Hardware
