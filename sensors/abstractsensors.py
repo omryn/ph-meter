@@ -67,7 +67,7 @@ class LinearCalibratedSensor(Sensor):
         return f(measured_value)
 
     def _get_closest_range(self, measured_value):
-        calibration = self.calibrationPoints.items().sort(lambda a, b: b[1] - a[1])
+        calibration = self.calibration_points.items().sort(lambda a, b: b[1] - a[1])
         under = filter(calibration, lambda item: measured_value <= item[1])
         over = filter(calibration, lambda item: measured_value > item[1])
 
