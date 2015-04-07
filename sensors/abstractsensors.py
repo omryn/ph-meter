@@ -73,6 +73,7 @@ class LinearCalibratedSensor(Sensor):
             else: return 0
 
         calibration = self.calibration_points.items().sort(by_measured_value)
+        print calibration
         under = filter(lambda item: measured_value <= item[1], calibration)
         over = filter(lambda item: measured_value > item[1], calibration)
 
