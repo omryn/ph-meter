@@ -63,7 +63,9 @@ class LinearCalibratedSensor(Sensor):
         diff_nominal = cal_range[1][0] - cal_range[0][0]
         diff_measured = cal_range[1][1] - cal_range[0][1]
         m = diff_nominal / diff_measured
-        f = lambda x: cal_range[0][1] + m * (x - cal_range[0][0])
+        n = cal_range[0][1] + m *  cal_range[0][0]
+        f = lambda x: n + m * x
+        print "f(x)={0} * x + {1}".format(m, n)
         return f(measured_value)
 
     def _get_closest_range(self, measured_value):
