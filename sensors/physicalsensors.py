@@ -45,7 +45,7 @@ class PhSensor(LinearCalibratedSensor):
         self.pga = pga
         self.ads = ads
         self.calibration_points = {
-            '4.01': 109.375, '7': -55.125
+            4.01: 109.375, 7: -55.125
         }
 
     def get_measure(self):
