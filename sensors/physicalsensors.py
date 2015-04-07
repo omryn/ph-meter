@@ -44,6 +44,9 @@ class PhSensor(LinearCalibratedSensor):
         self.n_channel = n_channel
         self.pga = pga
         self.ads = ads
+        self.calibration_points = {
+            '4.01': 109.375, '7': -55.125
+        }
 
     def get_measure(self):
         return self.ads.readADCDifferential(self.p_channel, self.n_channel, self.pga, 3300)
