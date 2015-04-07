@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'Omry_Nachman'
 
-from beheaviors import SchedulerWithConfig
+from behaviors import SchedulerWithConfig
 import signal
 import sys
 from config import home

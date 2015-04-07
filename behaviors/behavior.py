@@ -7,14 +7,6 @@ def noop():
     return None
 
 
-def flick(switchable, duration):
-    def execute():
-        switchable.turn_on()
-        sleep(duration)
-        switchable.turn_off()
-    return execute
-
-
 class RetryPolicy(object):
     def __init__(self, wait_before_recheck=10, max_retries=10, recheck_when=True,
                  recheck_on_error=True, on_failed_all=noop):
@@ -47,7 +39,7 @@ class RetryPolicy(object):
         return RetryPolicy(delay, retries, None, on_failed_all=on_final_error)
 
 
-class ConditionHandler:
+class Behavior:
     def __init__(self, name, sensor, condition_func,
                  on_true=noop, on_false=noop, on_error=noop,
                  retry_policy=RetryPolicy.no_retry(), log=lambda x: None):
