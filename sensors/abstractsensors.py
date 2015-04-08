@@ -105,7 +105,7 @@ class InvalidMeasuredValue(MeasureError):
 
 class StdTooHigh(MeasureError):
     def __init__(self, name, samples, max_std):
-        super(InvalidMeasuredValue, self).__init__(name)
+        super(StdTooHigh, self).__init__(name)
         self.samples = samples
         self.max_std = max_std
         self.std = std(samples)
@@ -114,4 +114,4 @@ class StdTooHigh(MeasureError):
 
     def __str__(self):
         return "%s: Samples STD too high (std: %.2f, max_std: %0,2f)\nSamples: %s" % \
-               (super(InvalidMeasuredValue, self).__str__(), self.std, self.max_std, str(self.samples))
+               (super(StdTooHigh, self).__str__(), self.std, self.max_std, str(self.samples))
