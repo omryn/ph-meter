@@ -32,7 +32,7 @@ class SensorWithPower(Sensor):
         """
         :return: a single sample (in Volts)
         """
-        return self.ads.readADCSingleEnded(channel=self.ads_channel, sps=3300, pga=self.pga) / 1000
+        return self.ads.readADCSingleEnded(channel=self.ads_channel, sps=250, pga=self.pga) / 1000
 
 
 class PhSensor(LinearCalibratedSensor):
